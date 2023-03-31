@@ -84,7 +84,7 @@ function GetAsset(Asset)
     end
 end
 
-function LibraryV2:UI(Name)
+function LibraryV2.UI(Name)
 
     if game.CoreGui:FindFirstChild("TUI2") then
         game.CoreGui.TUI2:Destroy();
@@ -93,7 +93,7 @@ function LibraryV2:UI(Name)
 
     local Library
     Library = {
-        UI = game:GetObjects("rbxassetid://8388979705")[1],
+        _UI = game:GetObjects("rbxassetid://8388979705")[1],
         Name = Name or "Untitled",
         Tabs = {},
         State = false,
@@ -204,10 +204,10 @@ function LibraryV2:UI(Name)
             end
         end
     }
-    Library.UI.Parent = game.CoreGui
-    Library.UI.Enabled = false
-    Library.UI:FindFirstChild("Name").Text = Library.Name
-    Library.UI.IgnoreGuiInset = true
+    Library._UI.Parent = game.CoreGui
+    Library._UI.Enabled = false
+    Library._UI:FindFirstChild("Name").Text = Library.Name
+    Library._UI.IgnoreGuiInset = true
 
     Library._UI.Lib.Exit.MouseButton1Down:Connect(function()
         Tween(Library._UI.Lib, {Position = u2(1, 0, Library._UI.Lib.Position.Y.Scale, 0)}, 0.5)
