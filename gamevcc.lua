@@ -84,7 +84,7 @@ function GetAsset(Asset)
     end
 end
 
-function LibraryV2:UI(Name)
+function LibraryV2.UI(Name)
 
     if game.CoreGui:FindFirstChild("TUI2") then
         game.CoreGui.TUI2:Destroy();
@@ -93,7 +93,7 @@ function LibraryV2:UI(Name)
 
     local Library
     Library = {
-        _UI = game:GetObjects("rbxassetid://8388979705")[1],
+        UI = game:GetObjects("rbxassetid://8388979705")[1],
         Name = Name or "Untitled",
         Tabs = {},
         State = false,
