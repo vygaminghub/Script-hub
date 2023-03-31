@@ -204,10 +204,10 @@ function LibraryV2:UI(Name)
             end
         end
     }
-    Library._UI.Parent = game.CoreGui
-    Library._UI.Enabled = false
-    Library._UI:FindFirstChild("Name").Text = Library.Name
-    Library._UI.IgnoreGuiInset = true
+    Library.UI.Parent = game.CoreGui
+    Library.UI.Enabled = false
+    Library.UI:FindFirstChild("Name").Text = Library.Name
+    Library.UI.IgnoreGuiInset = true
 
     Library._UI.Lib.Exit.MouseButton1Down:Connect(function()
         Tween(Library._UI.Lib, {Position = u2(1, 0, Library._UI.Lib.Position.Y.Scale, 0)}, 0.5)
