@@ -84,7 +84,7 @@ function GetAsset(Asset)
     end
 end
 
-function LibraryV2.UI(Name)
+function LibraryV2:UI(Name)
 
     if game.CoreGui:FindFirstChild("TUI2") then
         game.CoreGui.TUI2:Destroy();
@@ -93,25 +93,25 @@ function LibraryV2.UI(Name)
 
     local Library
     Library = {
-        _UI = game:GetObjects("rbxassetid://8388979705")[1],
+        UI = game:GetObjects("rbxassetid://8388979705")[1],
         Name = Name or "Untitled",
         Tabs = {},
         State = false,
         ToggleKey = Enum.KeyCode.LeftControl,
         Debounce = false,
 
-        Show_UI = function()
-            local P = Library._UI.Lib.Position
-            Tween(Library._UI.Lib, {Position = u2(0.75, P.X.Offset, P.Y.Size, P.Y.Offset)})
+        ShowUI = function()
+            local P = Library.UI.Lib.Position
+            Tween(Library.UI.Lib, {Position = u2(0.75, P.X.Offset, P.Y.Size, P.Y.Offset)})
         end,
         
-        Hide_UI = function()
+        HideUI = function()
             local P = Library.UI.Lib.Position
-            Tween(Library._UI.Lib, {Position = u2(1, P.X.Offset, P.Y.Size, P.Y.Offset)})
+            Tween(Library.UI.Lib, {Position = u2(1, P.X.Offset, P.Y.Size, P.Y.Offset)})
         end,
 
-        Hide_All = function()
-            for i,v in pairs(Library._UI.Lib.Holder:GetChildren()) do
+        HideAll = function()
+            for i,v in pairs(Library.UI.Lib.Holder:GetChildren()) do
                 if v.ClassName ~= "UIListLayout" and v.ClassName ~= "Folder" then
                     v.Visible = false
                 end
@@ -131,7 +131,7 @@ function LibraryV2.UI(Name)
         end,
 
         Startup = function()
-            local TUI = Library._UI
+            local TUI = Library.UI
             local Widgets = TUI.Widgets
             local Widget1, Widget2, Widget3, Widget4 = Widgets.Bookmarks, Widgets.Widget, Widgets.Discord, Widgets.Music
             local Tabs = TUI.TabContainer
@@ -166,13 +166,13 @@ function LibraryV2.UI(Name)
             TimeLabel.TextTransparency = 1
             TUI.Darkener.BackgroundTransparency = 1
             
-            for i,v in pairs(Library._UI:GetChildren()) do
+            for i,v in pairs(Library.UI:GetChildren()) do
                 if v.ClassName ~= "Folder" and v.Name ~= "Darkener" and v.Name ~= "MusicPlayer" then
                     v.Visible = true
                 end
             end
 
-            for i,v in pairs(Library._UI.Widgets:GetChildren()) do
+            for i,v in pairs(Library.UI.Widgets:GetChildren()) do
                 v.Visible = true
             end
             
@@ -192,29 +192,29 @@ function LibraryV2.UI(Name)
             if Library.State == true then
                 Library.Debounce = true
                 Tween(Blur, {Size = 24}, 0.5)
-                Library._UI.Enabled = true
+                Library.UI.Enabled = true
                 Library.Startup()
                 Library.Debounce = false    
             else
                 Library.Debounce = true
-                Library._UI.Enabled = false
+                Library.UI.Enabled = false
                 Tween(Blur, {Size = 0}, 0.5, true)
                 Library.Debounce = false
                 game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
             end
         end
     }
-    Library._UI.Parent = game.CoreGui
-    Library._UI.Enabled = false
-    Library._UI:FindFirstChild("Name").Text = Library.Name
-    Library._UI.IgnoreGuiInset = true
+    Library.UI.Parent = game.CoreGui
+    Library.UI.Enabled = false
+    Library.UI:FindFirstChild("Name").Text = Library.Name
+    Library.UI.IgnoreGuiInset = true
 
-    Library._UI.Lib.Exit.MouseButton1Down:Connect(function()
-        Tween(Library._UI.Lib, {Position = u2(1, 0, Library._UI.Lib.Position.Y.Scale, 0)}, 0.5)
+    Library.UI.Lib.Exit.MouseButton1Down:Connect(function()
+        Tween(Library.UI.Lib, {Position = u2(1, 0, Library.UI.Lib.Position.Y.Scale, 0)}, 0.5)
     end)
 
     --// Top Menu
-    local TopMenu = Library._UI.Top
+    local TopMenu = Library.UI.Top
 
     local ELib_Data
     local _Data = pcall(function()
@@ -242,7 +242,7 @@ function LibraryV2.UI(Name)
     SaveData()
 
     --// Music System
-    local Widgets = Library._UI.Widgets
+    local Widgets = Library.UI.Widgets
     local MusicWidget = Widgets.Music
 
     local Spotify
@@ -341,9 +341,9 @@ function LibraryV2.UI(Name)
         Tween(MusicWidget.Previous, {ImageTransparency = 0}, 0.3)
         Tween(MusicWidget.Skip, {ImageTransparency = 0}, 0.3)
         Tween(MusicWidget.Pause, {ImageTransparency = 0}, 0.3)
-        Library._UI.MusicPlayer.Visible = true
+        Library.UI.MusicPlayer.Visible = true
 
-        local MusicPlayer = Library._UI.MusicPlayer
+        local MusicPlayer = Library.UI.MusicPlayer
 
         MusicWidget.Previous.MouseButton1Click:Connect(function()
             pcall(Spotify, 'https://api.spotify.com/v1/me/player/previous', 'POST', TokenData)
@@ -427,14 +427,14 @@ function LibraryV2:Tab(Name, Icon)
             Tab.Tab.Effect.TL.Label.Text = Tab.Name
             
             local _m = #self.Tabs-1
-            self._UI.TabContainer.Size = u2(0, 71, 0, (80)+(55*_m + (5*(_m+1))))
+            self.UI.TabContainer.Size = u2(0, 71, 0, (80)+(55*_m + (5*(_m+1))))
         end,
 
-        _UI = self._UI
+        UI = self.UI
     }
     table.insert(self.Tabs, Tab)
     
-    Tab.Tab.Parent = self._UI.TabContainer.Holder
+    Tab.Tab.Parent = self.UI.TabContainer.Holder
     Tab.Update()
 
     Tab.Tab.MouseEnter:Connect(function()
@@ -458,13 +458,13 @@ function LibraryV2:Tab(Name, Icon)
     end)
 
     Tab.Tab.MouseButton1Down:Connect(function()
-        Tween(self._UI.Lib, {Position = u2(0.75, 0, self._UI.Lib.Position.Y.Scale, 0)}, 0.5)
+        Tween(self.UI.Lib, {Position = u2(0.75, 0, self.UI.Lib.Position.Y.Scale, 0)}, 0.5)
         self.Hide_All()
         self.Show(Tab.Containers)
     end)
     
-    self._UI.Lib.Holder.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-        self._UI.Lib.Holder.CanvasSize = UDim2.new(0,0,0,self._UI.Lib.Holder.UIListLayout.AbsoluteContentSize.Y)
+    self.UI.Lib.Holder.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+        self.UI.Lib.Holder.CanvasSize = UDim2.new(0,0,0,self.UI.Lib.Holder.UIListLayout.AbsoluteContentSize.Y)
     end)
 
     return setmetatable(Tab, LibraryV2)
@@ -515,7 +515,7 @@ function LibraryV2:Container(Name)
     }
     table.insert(self.Containers, Container.Container)
 
-    Container.Container.Parent = self._UI.Lib.Holder
+    Container.Container.Parent = self.UI.Lib.Holder
     Container.Update()
 
     Container.Container.ImageLabel.MouseButton1Down:Connect(function()
