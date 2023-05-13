@@ -1,1 +1,1 @@
-# Vygamming Hub
+# Vygaming Community
